@@ -1,0 +1,75 @@
+@if (cargando) {
+
+    <p>Cargando producto...</p>
+
+} @else if (product) {
+
+    <div class="card product-detail">
+
+        <img
+            [src]="product.imageUrl || 'https://placehold.co/600x400?text=Sin+Imagen'"
+            [alt]="product.name">
+
+        <div class="info">
+
+            <h1>{{ product.name }}</h1>
+
+            <div class="badges">
+
+                @if (product.featured) {
+                    <span class="badge featured">
+                        ⭐ Destacado
+                    </span>
+                }
+
+                @if (product.discount > 0) {
+                    <span class="badge discount">
+                        🔥 {{ product.discount }}% OFF
+                    </span>
+                }
+
+                @if (product.happyHour) {
+                    <span class="badge happy">
+                        🍺 Happy Hour
+                    </span>
+                }
+
+            </div>
+
+            <p class="description">
+                {{ product.description }}
+            </p>
+
+            <h2 class="price">
+                ${{ product.price }}
+            </h2>
+
+            <button [routerLink]="['/menu', product.userId]">
+                ← Volver al menú
+            </button>
+
+        </div>
+
+    </div>
+
+} @else {
+
+    <div class="card empty">
+
+        <span class="material-symbols-outlined">
+            restaurant
+        </span>
+
+        <h2>Producto no encontrado</h2>
+
+        <p>
+            El producto solicitado no existe.
+        </p>
+
+        <button routerLink="/">
+            Volver a restaurantes
+        </button>
+
+    </div>
+
+}

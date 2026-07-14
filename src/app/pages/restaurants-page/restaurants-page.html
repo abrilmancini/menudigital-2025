@@ -1,0 +1,57 @@
+<div class="restaurants-header">
+
+    <h1>Restaurantes</h1>
+
+    <div class="public-actions">
+
+        @if (!authService.token) {
+
+            <a class="btn" routerLink="/login">
+                Iniciar sesión
+            </a>
+
+            <a class="btn secondary" routerLink="/register">
+                Registrarse
+            </a>
+
+        } @else {
+
+            <a class="btn" routerLink="/dashboard/profile">
+                Mi perfil
+            </a>
+
+        }
+
+    </div>
+
+</div>
+
+@if (cargando) {
+
+    <p>Cargando restaurantes...</p>
+
+} @else {
+
+    <div class="restaurants-grid">
+
+        @for (restaurant of usersService.users; track restaurant.id) {
+
+            <a [routerLink]="['/menu', restaurant.id]">
+
+                <div class="restaurant-card">
+
+                    <h2>{{ restaurant.restaurantName }}</h2>
+
+                </div>
+
+            </a>
+
+        } @empty {
+
+            <p>No hay restaurantes registrados.</p>
+
+        }
+
+    </div>
+
+}

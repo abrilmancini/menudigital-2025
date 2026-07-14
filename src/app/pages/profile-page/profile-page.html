@@ -1,0 +1,51 @@
+@if (cargando) {
+
+    <p>Cargando perfil...</p>
+
+} @else {
+
+<div class="card profile">
+
+    <h1>Mi Perfil</h1>
+
+    <label>Email</label>
+
+    <input
+        [(ngModel)]="user.email"
+        disabled>
+
+    <label>Nombre del restaurante</label>
+
+    <input
+        [(ngModel)]="user.restaurantName">
+
+    <label>Contraseña</label>
+
+    <input
+        type="password"
+        [(ngModel)]="password"
+        placeholder="Ingresá tu contraseña para confirmar los cambios"
+        required>
+
+    <div class="actions">
+
+        <button
+            (click)="save()">
+
+            Guardar cambios
+
+        </button>
+
+        <button
+            class="danger"
+            (click)="deleteAccount()">
+
+            Eliminar cuenta
+
+        </button>
+
+    </div>
+
+</div>
+
+}

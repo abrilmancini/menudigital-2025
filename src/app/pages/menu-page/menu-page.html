@@ -1,0 +1,94 @@
+@if (cargandoRestaurant) {
+
+    <p>Cargando menú...</p>
+
+} @else {
+
+    <h1>{{ restaurantName }}</h1>
+
+    @for (category of restaurantCategories(); track category.id) {
+
+        <h2>{{ category.name }}</h2>
+
+        <div class="products-grid">
+
+            @for (product of productsByCategory(category.id); track product.id) {
+
+                <div class="product-card">
+
+                    <img
+                        [src]="product.imageUrl || 'https://placehold.co/600x400?text=Sin+Imagen'"
+                        [alt]="product.name">
+
+                    <div class="product-info">
+
+                        <h3>{{ product.name }}</h3>
+
+                        <p class="description">
+                            {{ product.description }}
+                        </p>
+
+                        <div class="badges">
+
+                            @if (product.featured) {
+                                <span class="badge featured">
+                                    ⭐ Destacado
+                                </span>
+                            }
+
+                            @if (product.discount > 0) {
+                                <span class="badge discount">
+                                    🔥 {{ product.discount }}% OFF
+                                </span>
+                            }
+
+                            @if (product.happyHour) {
+                                <span class="badge happy">
+                                    🍺 Happy Hour
+                                </span>
+                            }
+
+                        </div>
+
+                        <div class="bottom">
+
+                            <h2 class="price">
+                                ${{ product.price }}
+                            </h2>
+
+                            <button
+                                [routerLink]="['/products', product.id]">
+
+                                Ver detalle
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            } @empty {
+
+                <div class="empty-state">
+
+                    <span class="material-symbols-outlined">
+                        restaurant_menu
+                    </span>
+
+                    <h3>No hay productos</h3>
+
+                    <p>
+                        Todavía no hay productos en esta categoría.
+                    </p>
+
+                </div>
+
+            }
+
+        </div>
+
+    }
+
+}

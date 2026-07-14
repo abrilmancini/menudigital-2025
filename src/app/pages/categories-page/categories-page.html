@@ -1,0 +1,95 @@
+<h1>Categorías</h1>
+
+<form #categoryForm="ngForm" (ngSubmit)="submitCategory(categoryForm)" class="category-form">
+
+    <div>
+        <label for="name">Nombre</label>
+        <input
+            id="name"
+            name="name"
+            [(ngModel)]="formModel.name"
+            required
+            #name="ngModel">
+        @if (name.invalid && name.touched) {
+            <p class="error">Debe ingresar un nombre.</p>
+        }
+    </div>
+
+    <div>
+        <label for="description">Descripción</label>
+        <textarea
+            id="description"
+            name="description"
+            [(ngModel)]="formModel.description"
+            required
+            #description="ngModel">
+        </textarea>
+        @if (description.invalid && description.touched) {
+            <p class="error">Debe ingresar una descripción.</p>
+        }
+    </div>
+
+    <div class="actions">
+
+        <button type="submit" [disabled]="categoryForm.invalid || guardando">
+            @if (editingCategory) {
+                Guardar cambios
+            } @else {
+                + Crear categoría
+            }
+        </button>
+
+        @if (editingCategory) {
+            <button type="button" (click)="cancelEdit(categoryForm)">
+                Cancelar
+            </button>
+        }
+
+    </div>
+
+</form>
+
+<hr>
+
+@if (cargando) {
+
+    <p>Cargando categorías...</p>
+
+} @else {
+
+    @for (category of categoryService.categories; track category.id) {
+
+        <div class="category-card">
+
+            <div>
+                <h2>{{ category.name }}</h2>
+                <p>{{ category.description }}</p>
+            </div>
+
+            <div class="actions">
+
+                <button
+                    (click)="startEdit(category)">
+
+                    ✏️ Editar
+
+                </button>
+
+                <button
+                    (click)="deleteCategory(category.id)">
+
+                    🗑️ Eliminar
+
+                </button>
+
+            </div>
+
+        </div>
+
+    } @empty {
+
+        <p>No hay categorías creadas.</p>
+
+    }
+
+}

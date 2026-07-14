@@ -1,0 +1,78 @@
+<nav class="navbar">
+
+    <div class="logo">
+        🍽️ <span>Menu Digital</span>
+    </div>
+
+    <div class="links">
+
+        <a
+            routerLink="/"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }">
+
+            <span class="material-symbols-outlined">
+                restaurant
+            </span>
+
+            Restaurantes
+
+        </a>
+
+        <a
+            routerLink="/dashboard/products"
+            routerLinkActive="active">
+
+            <span class="material-symbols-outlined">
+                inventory_2
+            </span>
+
+            Productos
+
+        </a>
+
+        <a
+            routerLink="/dashboard/categories"
+            routerLinkActive="active">
+
+            <span class="material-symbols-outlined">
+                category
+            </span>
+
+            Categorías
+
+        </a>
+
+        <a
+            routerLink="/dashboard/profile"
+            routerLinkActive="active">
+
+            <span class="material-symbols-outlined">
+                account_circle
+            </span>
+
+            Mi perfil
+
+        </a>
+
+    </div>
+
+    <button
+        class="logout"
+        (click)="showLogoutModal()">
+
+        <span class="material-symbols-outlined">
+            logout
+        </span>
+
+        Salir
+
+    </button>
+
+</nav>
+
+<main class="page">
+
+    <router-outlet></router-outlet>
+
+</main>

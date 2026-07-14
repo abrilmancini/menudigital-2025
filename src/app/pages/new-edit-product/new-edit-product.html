@@ -1,0 +1,143 @@
+<div class="card">
+
+    @if (id()) {
+        <h2>Editar producto</h2>
+    } @else {
+        <h2>Nuevo producto</h2>
+    }
+
+    <form
+        #newProductForm="ngForm"
+        (ngSubmit)="handleFormSubmission(newProductForm)">
+
+        <div>
+            <label>Nombre</label>
+
+            <input
+                type="text"
+                name="name"
+                ngModel
+                required>
+        </div>
+
+        <div>
+            <label>Descripción</label>
+
+            <textarea
+                name="description"
+                ngModel>
+            </textarea>
+        </div>
+
+        <div>
+            <label>Precio</label>
+
+            <input
+                type="number"
+                name="price"
+                ngModel
+                required
+                min="0">
+        </div>
+
+        <div>
+            <label>Imagen (URL)</label>
+
+            <input
+                type="url"
+                name="imageUrl"
+                ngModel>
+        </div>
+
+        <div>
+            <label>Categoría</label>
+
+            <select
+                name="categoryId"
+                ngModel
+                required
+                [disabled]="categoryService.categories.length === 0">
+
+                <option value="" disabled selected>
+                    Seleccione una categoría
+                </option>
+
+                @for (category of categoryService.categories; track category.id) {
+
+                    <option [value]="category.id">
+                        {{ category.name }}
+                    </option>
+
+                }
+
+            </select>
+        </div>
+
+        <div>
+
+            <label>
+
+                <input
+                    type="checkbox"
+                    name="featured"
+                    ngModel>
+
+                Destacado
+
+            </label>
+
+        </div>
+
+        <div>
+
+            <label>
+
+                <input
+                    type="checkbox"
+                    name="happyHour"
+                    ngModel>
+
+                Happy Hour
+
+            </label>
+
+        </div>
+
+        <div>
+
+            <label>Descuento (%)</label>
+
+            <input
+                type="number"
+                name="discount"
+                ngModel
+                min="0"
+                max="100">
+
+        </div>
+
+        @if (errorEnBack) {
+            <p class="error">
+                Error al guardar el producto.
+            </p>
+        }
+
+        <button
+            type="submit"
+            [disabled]="newProductForm.invalid || solicitudABackEnCurso">
+
+            @if (id()) {
+                Guardar cambios
+            } @else {
+                Crear producto
+            }
+
+        </button>
+
+        @if (solicitudABackEnCurso) {
+            <app-spinner />
+        }
+
+    </form>
+
+</div>

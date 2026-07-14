@@ -1,0 +1,35 @@
+<div class="products-header">
+
+    <h1>Productos</h1>
+
+    <a
+        routerLink="/dashboard/products/new"
+        class="btn">
+
+        + Nuevo producto
+
+    </a>
+
+</div>
+
+<hr>
+
+@if(cargando){
+
+    <p>Cargando productos...</p>
+
+} @else {
+
+    @for(product of productService.products; track product.id; let i = $index){
+
+        <app-product-list-item
+            [index]="i"
+            [producto]="product" />
+
+    } @empty {
+
+        <p>No hay productos creados.</p>
+
+    }
+
+}

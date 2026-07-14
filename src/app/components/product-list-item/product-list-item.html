@@ -1,0 +1,52 @@
+<article class="product-item">
+
+    <div class="info">
+
+        <h3>{{ producto().name }}</h3>
+
+        <p>{{ producto().description }}</p>
+
+        <p>
+            <strong>Precio:</strong>
+            ${{ producto().price }}
+        </p>
+
+        <div class="badges">
+
+            @if (producto().discount > 0) {
+                <span class="badge discount">{{ producto().discount }}% OFF</span>
+            }
+
+            @if (producto().happyHour) {
+                <span class="badge happy">Happy Hour</span>
+            }
+
+            @if (producto().featured) {
+                <span class="badge featured">⭐ Destacado</span>
+            }
+
+        </div>
+
+    </div>
+
+    <div class="actions">
+
+        <a [routerLink]="['/dashboard/products', producto().id, 'edit']">
+            ✏️ Editar
+        </a>
+
+        <button (click)="editDiscount()">
+            Editar descuento
+        </button>
+
+        <button (click)="toggleHappyHour()">
+            {{ producto().happyHour ? 'Desactivar' : 'Activar' }} Happy Hour
+        </button>
+
+        <button class="danger" (click)="showDeleteModal()">
+            🗑️ Borrar
+        </button>
+
+    </div>
+
+</article>

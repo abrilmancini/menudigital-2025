@@ -1,0 +1,123 @@
+<div id="container" class="card">
+
+    <h1>Registrar restaurante</h1>
+
+    <form
+        #registerForm="ngForm"
+        (ngSubmit)="register(registerForm)">
+
+        <div>
+
+            <label>Nombre del restaurante</label>
+
+            <input
+                name="restaurantName"
+                ngModel
+                required
+                #restaurantName="ngModel">
+
+            @if (restaurantName.invalid && restaurantName.touched) {
+
+                <p class="error">
+                    Debe ingresar el nombre del restaurante.
+                </p>
+
+            }
+
+        </div>
+
+        <div>
+
+            <label>Correo electrónico</label>
+
+            <input
+                type="email"
+                name="email"
+                ngModel
+                required
+                email
+                #email="ngModel">
+
+            @if (email.invalid && email.touched) {
+
+                <p class="error">
+                    Debe ingresar un correo válido.
+                </p>
+
+            }
+
+        </div>
+
+        <div>
+
+            <label>Contraseña</label>
+
+            <input
+                type="password"
+                name="password"
+                ngModel
+                required
+                minlength="4"
+                #password="ngModel">
+
+            @if (password.invalid && password.touched) {
+
+                <p class="error">
+                    La contraseña debe tener al menos 4 caracteres.
+                </p>
+
+            }
+
+        </div>
+
+        <div>
+
+            <label>Repetir contraseña</label>
+
+            <input
+                type="password"
+                name="password2"
+                ngModel
+                required
+                minlength="4"
+                #password2="ngModel">
+
+        </div>
+
+        <button
+            type="submit"
+            [disabled]="registerForm.invalid || isLoading">
+
+            Registrarse
+
+        </button>
+
+        @if (isLoading) {
+          <app-spinner />
+        }
+
+        @if (errorRegister) {
+
+            <p class="error">
+                No se pudo registrar el restaurante.
+            </p>
+
+        }
+
+        <p>
+
+            ¿Ya tenés cuenta?
+
+            <a routerLink="/login">
+                Iniciar sesión
+            </a>
+
+        </p>
+
+    </form>
+
+    <a routerLink="/">
+        ← Volver a restaurantes
+    </a>
+
+</div>
