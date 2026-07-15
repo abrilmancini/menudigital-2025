@@ -7,6 +7,9 @@ export interface Product {
   featured: boolean;
   discount: number;
   happyHour: boolean;
+  happyHourStart: string | null;
+  happyHourEnd: string | null;
+  isHappyHourActiveNow: boolean;
   categoryId: number;
   userId: number;
 }
@@ -19,6 +22,8 @@ export interface NewProduct {
   featured: boolean;
   discount: number;
   happyHour: boolean;
+  happyHourStart: string | null;
+  happyHourEnd: string | null;
   categoryId: number;
 }
 

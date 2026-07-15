@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { Product, NewProduct } from '../interfaces/product';
+import { Product, NewProduct, UpdateProduct } from '../interfaces/product';
 import { Auth } from './auth';
 
 @Injectable({
@@ -51,7 +51,7 @@ export class ProductService {
   }
 
   /** Editar producto */
-  async editProduct(product: Product) {
+  async editProduct(product: UpdateProduct) {
     const res = await fetch(`${this.URL_BASE}/${product.id}`, {
       method: 'PUT',
       headers: {
@@ -63,8 +63,12 @@ export class ProductService {
 
     if (!res.ok) return;
 
+    // isHappyHourActiveNow lo calcula el backend; lo dejamos como estaba
+    // hasta el próximo fetch (el PUT no devuelve body, ver docs del backend).
     this.products = this.products.map(oldProduct => {
-      if (oldProduct.id === product.id) return product;
+      if (oldProduct.id === product.id) {
+        return { ...oldProduct, ...product };
+      }
       return oldProduct;
     });
 
@@ -93,22 +97,29 @@ export class ProductService {
     return true;
   }
 
-  /** Habilitar/deshabilitar happy hour — endpoint propio */
-  async toggleHappyHour(id: number, happyHour: boolean) {
+  /** Habilitar/deshabilitar happy hour, con horario opcional — endpoint propio */
+  async updateHappyHourSchedule(
+    id: number,
+    happyHour: boolean,
+    happyHourStart: string | null,
+    happyHourEnd: string | null
+  ) {
     const res = await fetch(`${this.URL_BASE}/${id}/happyhour`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
         Authorization: 'Bearer ' + this.authService.token,
       },
-      body: JSON.stringify({ happyHour })
+      body: JSON.stringify({ happyHour, happyHourStart, happyHourEnd })
     });
 
     if (!res.ok) return null;
 
-    // Ídem: 204 No Content, sin body.
+    // 204 No Content: actualizamos el estado local con lo que mandamos.
     this.products = this.products.map(product =>
-      product.id === id ? { ...product, happyHour } : product
+      product.id === id
+        ? { ...product, happyHour, happyHourStart, happyHourEnd }
+        : product
     );
 
     return true;
@@ -124,7 +135,6 @@ export class ProductService {
     }
   }
 
-  /** Productos del restaurante logueado (dashboard, requiere token) */
   async getProductsByRestaurant(userId: number) {
     const res = await fetch(`${this.URL_BASE}/restaurant/${userId}`, {
       method: 'GET',
@@ -159,5 +169,4 @@ export class ProductService {
 
     return null;
   }
-
 }

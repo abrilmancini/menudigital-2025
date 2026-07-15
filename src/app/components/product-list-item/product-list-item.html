@@ -17,8 +17,10 @@
                 <span class="badge discount">{{ producto().discount }}% OFF</span>
             }
 
-            @if (producto().happyHour) {
-                <span class="badge happy">Happy Hour</span>
+            @if (producto().isHappyHourActiveNow) {
+                <span class="badge happy">🔥 Happy Hour activo</span>
+            } @else if (producto().happyHour) {
+                <span class="badge happy-scheduled">Happy Hour programado</span>
             }
 
             @if (producto().featured) {
@@ -26,6 +28,12 @@
             }
 
         </div>
+
+        @if (producto().happyHour && producto().happyHourStart && producto().happyHourEnd) {
+            <p class="schedule">
+                🕒 {{ producto().happyHourStart }} a {{ producto().happyHourEnd }}
+            </p>
+        }
 
     </div>
 
@@ -39,8 +47,8 @@
             Editar descuento
         </button>
 
-        <button (click)="toggleHappyHour()">
-            {{ producto().happyHour ? 'Desactivar' : 'Activar' }} Happy Hour
+        <button (click)="editHappyHour()">
+            Configurar Happy Hour
         </button>
 
         <button class="danger" (click)="showDeleteModal()">

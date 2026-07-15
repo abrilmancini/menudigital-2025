@@ -51,6 +51,8 @@ export class NewEditProduct implements OnInit {
         categoryId: product.categoryId,
         featured: product.featured,
         happyHour: product.happyHour,
+        happyHourStart: product.happyHourStart ?? '',
+        happyHourEnd: product.happyHourEnd ?? '',
         discount: product.discount
       });
 
@@ -72,6 +74,8 @@ export class NewEditProduct implements OnInit {
       categoryId: Number(form.value.categoryId),
       featured: !!form.value.featured,
       happyHour: !!form.value.happyHour,
+      happyHourStart: form.value.happyHourStart || null,
+      happyHourEnd: form.value.happyHourEnd || null,
       discount: Number(form.value.discount) || 0
     };
 

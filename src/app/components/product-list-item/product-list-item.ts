@@ -78,16 +78,56 @@ export class ProductListItem {
 
   }
 
-  async toggleHappyHour() {
+  async editHappyHour() {
 
-    const nuevoEstado = !this.producto().happyHour;
+    const producto = this.producto();
 
-    const res = await this.productService.toggleHappyHour(this.producto().id, nuevoEstado);
+    const { value: formValues, isConfirmed } = await Swal.fire({
+      title: 'Happy Hour',
+      html: `
+        <div style="text-align:left;">
+          <label style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+            <input id="swal-happyhour-enabled" type="checkbox" ${producto.happyHour ? 'checked' : ''} style="width:18px;height:18px;">
+            Habilitado
+          </label>
+          <label style="display:block;margin-bottom:4px;">Desde</label>
+          <input id="swal-happyhour-start" type="time" value="${producto.happyHourStart ?? ''}" class="swal2-input" style="margin:0 0 10px;">
+          <label style="display:block;margin-bottom:4px;">Hasta</label>
+          <input id="swal-happyhour-end" type="time" value="${producto.happyHourEnd ?? ''}" class="swal2-input" style="margin:0;">
+          <p style="font-size:0.8rem;color:#888;margin-top:10px;">
+            Si dejás el horario vacío, el happy hour queda activo todo el tiempo mientras esté habilitado.
+          </p>
+        </div>
+      `,
+      showCancelButton: true,
+      confirmButtonText: 'Guardar',
+      cancelButtonText: 'Cancelar',
+      preConfirm: () => {
+        const enabled = (document.getElementById('swal-happyhour-enabled') as HTMLInputElement).checked;
+        const start = (document.getElementById('swal-happyhour-start') as HTMLInputElement).value;
+        const end = (document.getElementById('swal-happyhour-end') as HTMLInputElement).value;
+
+        return {
+          happyHour: enabled,
+          happyHourStart: start || null,
+          happyHourEnd: end || null
+        };
+      }
+    });
+
+    if (!isConfirmed || !formValues) return;
+
+    const res = await this.productService.updateHappyHourSchedule(
+      producto.id,
+      formValues.happyHour,
+      formValues.happyHourStart,
+      formValues.happyHourEnd
+    );
 
     if (res) {
       Toast.fire({
         icon: 'success',
-        title: nuevoEstado ? 'Happy hour activado' : 'Happy hour desactivado'
+        title: 'Happy hour actualizado'
       });
     }
 

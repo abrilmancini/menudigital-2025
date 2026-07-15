@@ -20,8 +20,7 @@ export class CategoriesPage implements OnInit {
   editingCategory: Category | null = null;
 
   formModel = {
-    name: '',
-    description: ''
+    name: ''
   };
 
   async ngOnInit() {
@@ -32,14 +31,13 @@ export class CategoriesPage implements OnInit {
   startEdit(category: Category) {
     this.editingCategory = category;
     this.formModel = {
-      name: category.name,
-      description: category.description
+      name: category.name
     };
   }
 
   cancelEdit(form: NgForm) {
     this.editingCategory = null;
-    this.formModel = { name: '', description: '' };
+    this.formModel = { name: '' };
     form.resetForm();
   }
 
@@ -56,20 +54,20 @@ export class CategoriesPage implements OnInit {
         await this.categoryService.editCategory({
           ...this.editingCategory,
           name: this.formModel.name,
-          description: this.formModel.description
+          description: ''
         });
 
       } else {
 
         await this.categoryService.createCategory({
           name: this.formModel.name,
-          description: this.formModel.description
+          description: ''
         });
 
       }
 
       this.editingCategory = null;
-      this.formModel = { name: '', description: '' };
+      this.formModel = { name: '' };
       form.resetForm();
 
     } finally {
@@ -90,7 +88,7 @@ export class CategoriesPage implements OnInit {
 
     if (this.editingCategory?.id === id) {
       this.editingCategory = null;
-      this.formModel = { name: '', description: '' };
+      this.formModel = { name: '' };
     }
 
   }
