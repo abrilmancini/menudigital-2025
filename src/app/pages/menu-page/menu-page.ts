@@ -1,9 +1,7 @@
 import { Component, inject, input, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-
 import { Product } from '../../interfaces/product';
 import { Category } from '../../interfaces/category';
-
 import { ProductService } from '../../services/product.service';
 import { CategoryService } from '../../services/category.service';
 import { UsersService } from '../../services/user.service';
